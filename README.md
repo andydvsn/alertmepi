@@ -19,11 +19,10 @@ Installation
 
 ### Prerequisites
 
-The script requires two Perl modules in order to work; the RPC::XML::Client module and the Crypt::SSLeay module. These can be installed using CPAN for your system. You should be able to run AlertMePI on any platform that can run Perl scripts.
-
-UNIX-based systems only at the moment (Linux / OS X), as I've used specific file paths in the script.
+The script requires two Perl modules in order to work; the RPC::XML::Client module and the Crypt::SSLeay module. These can be installed using CPAN for your system.
 
 ### Mac OS X
+
 Tested on Mac OS X v10.5.6 - 10.7.2.
 
 Ensure you have the Apple Developer Tools appropriate to your OS X version installed.
@@ -38,6 +37,20 @@ Install RPC::XML::Client:
 	sudo /usr/bin/cpan -i RPC::XML::Client
 
 You should be ready to go.
+
+### Ubuntu
+
+You'll need build-essential and the libssl-dev package:
+
+	sudo apt-get install build-essential libssl-dev
+	
+Then the instructions are the same as for Mac OS X:
+
+	sudo /usr/bin/cpan -i Crypt::SSLeay
+	sudo /usr/bin/cpan -i RPC::XML::Client
+	
+That's it.
+
 
 Configuration
 -------------
