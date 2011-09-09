@@ -1,6 +1,9 @@
-# AlertMePI
+AlertMePI
+=========
 
-## Introduction
+Introduction
+------------
+
 The AlertMe Perl Interface project hosts a perl script designed to reduce the initial hurdle of controlling and obtaining data from the AlertMe home security and smart energy system.
 
 Please check the Installation wiki page to get started.
