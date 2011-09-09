@@ -86,7 +86,7 @@ unless($options{c}) {
 
 #TEST OPTION
 if($options{Q}) {
-	print getAllHubs();
+	print getStatus();
 }
 
 
@@ -1231,7 +1231,6 @@ sub getStatus {
 		return $result;
 	} else {
 		our @status = ( split ',', $result );
-		#@eventlog = sort(@eventlog);							# This reverses the order of the event log (oldest first).
 	}
 }
 
