@@ -1,7 +1,7 @@
 AlertMePI
 =========
 
-The AlertMe Perl Interface is a perl script designed to reduce the initial hurdle of controlling and obtaining data from the AlertMe home security and smart energy system.
+The AlertMe Perl Interface is a Perl script designed to reduce the initial hurdle of controlling and obtaining data from the AlertMe home security and smart energy system. It is currently compatible with UNIX systems only, as I've hard-coded some paths, but the hope is to make it more system-agnostic as development goes on.
 
 
 Introduction
@@ -12,6 +12,48 @@ The script takes readings from and sends commands to your AlertMe hub via the Al
 In addition the script has three output modes: 'standard', 'web' and 'raw'. Standard output is human-friendly; web output produces comprehensively tagged HTML; and raw mode simply returns the device name and associated value in 'device|reading' format.
 
 When using the script, a nice rule of thumb is that flags in lower case (eg. -e) are 'query' flags and will not affect the operation of your system, devices attached to it, or the operation of the script itself. Upper case flags are 'control' flags and may turn devices off or modify the operation of your system. Please use them with care!
+
+
+Installation
+------------
+
+### Prerequisites
+
+The script requires two Perl modules in order to work; the RPC::XML::Client module and the Crypt::SSLeay module. These can be installed using CPAN for your system. You should be able to run AlertMePI on any platform that can run Perl scripts.
+
+UNIX-based systems only at the moment (Linux / OS X), as I've used specific file paths in the script.
+
+### Mac OS X
+Tested on Mac OS X v10.5.6 - 10.7.2.
+
+Ensure you have the Apple Developer Tools appropriate to your OS X version installed.
+Install Crypt::SSLeay:
+
+	sudo /usr/bin/cpan -i Crypt::SSLeay
+
+Accept all of the default settings and choose yourself a download server or two from the list. It should download Crypt::SSLeay and install it with no problems.
+
+Install RPC::XML::Client:
+
+	sudo /usr/bin/cpan -i RPC::XML::Client
+
+You should be ready to go.
+
+Configuration
+-------------
+
+This is now automated. All you need to do is download the latest version and set the execute bit on it:
+
+	chmod +x alertmepi.pl
+
+Run it from the command line and the first run will prompt you to enter your system password, as it needs to create some files in /etc. It will then prompt you for your AlertMe username and password. These are saved in /etc/alertme/ and read permission is given to the user that installed it, plus the 'www' group so that it can be used from a web interface. Please change these if you feel you need to.
+
+Should you change your AlertMe login details, you'll need to update your details for alertmepi. This can be done by rerunning the script with the -L flag, which will erase your old details and allow you to enter new ones.
+
+You could optionally create a link to wherever you keep the file in your $PATH to trigger it more directly, eg.
+
+	sudo mkdir -p /usr/local/bin
+	ln -s path/to/alertme.pl /usr/local/bin/alertme
 
 
 Usage
