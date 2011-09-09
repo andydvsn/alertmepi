@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# AlertMe Perl Interface v2.04 (21/07/10)
+# AlertMe Perl Interface v2.05 (09/09/11)
 #
 # http://code.google.com/p/alertmepi
 
@@ -14,7 +14,7 @@ our ($username, $password, $client, $cookie, $randomness, @devices, @eventlog, @
 
 # Process options, so we know what we're doing.
 my %options=();
-getopts("QaA:b:cC:dDe:E:hI:kl:LmM:O:pP:rs:t:UwW",\%options);
+getopts("QaA:b:cC:dDe:E:hI:kl:LmM:O:pP:rs:t:UwWz",\%options);
 
 # Display help, if requested.
 if($options{h}) {
@@ -34,7 +34,8 @@ Commands:
 
 Queries:
   -a                          List all hubs associated with account, with unique hub ID in raw mode.
-                              NB: Interaction is currently limited to the first hub in an account.
+                              NB: Interaction is limited to the first hub in an account.
+                                  Not really a problem, as AlertMe only operate one hub per account.
 
   -b < 'device name' | 'device type' | all >  
                               Read battery voltage of specified device, device type, or all devices.
@@ -54,19 +55,22 @@ Queries:
                               Get specified hub status, or return everything status-related.
 
   -t < 'device name' | all >  Read temperature.
+    
+  -z                          Output any debug data that may be available.
 
 Output Mode:
   -W                          Return simple hub status formatted in HTML (used independently).
+    
   -w                          Return value formatted in HTML (used in conjunction with queries).
 
   -A                          Specify anchor tag 'href' value to be used in the HTML output.
   -D                          Appends the 'safe name' of a device to the end of the 'href' value.
-                              Used to control the device you just output HTML data on.
+                              Useful to control the device you just retrieved HTML data for.
                               
   -C                          Specify class values to be used in the HTML output.
   -P                          Specify which tag the result should be wrapped in for HTML output. eg. 'p'.
 
-  -r                          Return raw value (used in conjunction with queries).
+  -r                          Return query results as raw values.
   
   -h                          Display this help information.
 \n";
@@ -86,7 +90,7 @@ unless($options{c}) {
 
 #TEST OPTION
 if($options{Q}) {
-	print getStatus();
+	getStatus();
 }
 
 
@@ -791,6 +795,7 @@ sub output_p {
 # Get hub status information.
 if ($options{s}) {
 	
+    # Get the hubs and only use the first one.
 	my $hubs = getAllHubs();
 	my @hubs = ( split ',', $hubs );
 	my @firsthub = ( split '\|', $hubs[0] );
@@ -799,10 +804,11 @@ if ($options{s}) {
 	my ($hubavail,$hubpower,$hubconn,$hubup,$hubver,$hubstatus);
 		
 	getStatus();
-	
+	    
+    # Humanise some of the output.
 	foreach my $i (@status) {
 		$i=lc($i);
-	    my ($item,$state) = split '\|', $i;		
+	    my ($item,$state) = split '\|', $i, 2;		
 		
 		if ($item eq 'isavailable' && $state eq 'yes') {
 			$hubavail = "Available";
@@ -814,15 +820,21 @@ if ($options{s}) {
 			$hubavail = "Upgrading";
 			$hubstatus = "standby";
 		}
+        
 	}
 
+    # Lose the values we've not been asked for.
 	if ($options{s} ne 'all'){
 		@status = grep(/$options{s}/i, @status);
 	}
 		
 	foreach my $i (@status) {
+               
 		$i=lc($i);
-	    my ($item,$state) = split '\|', $i;		
+	    my ($item,$state) = split '\|', $i, 2;
+        
+        #print "$item\n";
+        #print "$state\n";
 		
 		if ($item eq 'powertype' && $state eq 'ac') {
 			$hubpower = "AC";
@@ -839,7 +851,8 @@ if ($options{s}) {
 		}
 		
 		if ($item eq 'uptime') {
-			my (@uptime) = split '\(s\)', $state;
+            my (@uptime) = split '\|', $state;
+            
 			my ($upday,$uphour,$upmin,$upsec) = @uptime;
 			foreach ($upday,$uphour,$upmin,$upsec) {
 				$_ =~ s/\D//g;
@@ -1012,9 +1025,10 @@ if ($options{U}) {
 
 
 
-# We all love subroutines.
+### We all love subroutines.
 
 # This handles creation and modification of the login file, populates the device cache file and sets up the cookie cache.
+### THIS NEEDS TO BE MADE PER-USER AND SYSTEM AGNOSTIC ###
 sub checklogin {
 	if ($options{L}) {
 		print "Clearing old AlertMe login files...\n";
@@ -1231,6 +1245,7 @@ sub getStatus {
 		return $result;
 	} else {
 		our @status = ( split ',', $result );
+        if ($options{z}) {print "\nDEBUG: @status\n\n";}
 	}
 }
 
