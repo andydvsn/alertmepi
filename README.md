@@ -19,7 +19,7 @@ Usage
 
 You can run: 
 
- ./alertmepi.pl -h
+	./alertmepi.pl -h
 
 for more information, or take a look in the wiki.
 
