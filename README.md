@@ -25,7 +25,8 @@ The script requires two Perl modules in order to work; the RPC::XML::Client modu
 
 Tested on Mac OS X v10.5.6 - 10.7.2.
 
-Ensure you have the Apple Developer Tools appropriate to your OS X version installed.
+Ensure you have the [Apple Developer Tools](http://developer.apple.com/Tools/) appropriate to your OS X version installed.
+
 Install Crypt::SSLeay:
 
 	sudo /usr/bin/cpan -i Crypt::SSLeay
