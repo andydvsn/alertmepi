@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# AlertMe Perl Interface v2.05 (09/09/11)
+# AlertMe Perl Interface v2.06 (17/09/11)
 #
 # http://code.google.com/p/alertmepi
 
@@ -248,6 +248,7 @@ if ($options{b}) {
 	if ($options{b} ne 'all') {
 		@devices = grep(/$options{b}/i, @devices);
 	} else {
+		@devices = grep(!/camera/i, @devices);
 		@devices = grep(!/power controller/i, @devices);
 	}
 	
@@ -939,6 +940,7 @@ if ($options{t}) {
 	if ($options{t} ne 'all') {
 		@devices = grep(/$options{t}/i, @devices);
 	} else {
+		@devices = grep(!/camera/i, @devices);
 		@devices = grep(!/keyfob/i, @devices);
 		@devices = grep(!/power controller/i, @devices);
 	}

@@ -1,4 +1,4 @@
-AlertMePI v2.05
+AlertMePI v2.06
 ===============
 
 The AlertMe Perl Interface is a Perl script designed to reduce the initial hurdle of controlling and obtaining data from the AlertMe home security and smart energy system. It is currently compatible with UNIX systems only, as I've hard-coded some paths, but the hope is to make it more system-agnostic as development goes on.
