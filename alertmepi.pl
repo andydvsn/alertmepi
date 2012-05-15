@@ -258,7 +258,7 @@ if ($options{b}) {
 		my $typemush = mush($type);
 					
 		my $ampi_highlight = $pass % 2 ? 'light' : 'dark';
-	 	my $status = 'online';
+	 	my $status = 'ampi_online';
 	
 		my $devicestate = getBatteryLevel("$id");
 	
@@ -277,14 +277,14 @@ sub output_b {
 	
 	if(looks_like_number($devicestate)) {
 
-		if ($devicestate < 2.6) { $status = 'warning'; }
-		if ($devicestate < 2.8 && $typemush eq 'powerclamp') { $status = 'warning'; }
+		if ($devicestate < 2.6) { $status = 'ampi_warning'; }
+		if ($devicestate < 2.8 && $typemush eq 'powerclamp') { $status = 'ampi_warning'; }
 
 		if ($options{w}) {
 			
 			if ($options{A}) { $name = "<a href=\"$options{A}\">$name</a>"; }
 			if ($options{P}) { $name = "<$options{P}>$name</$options{P}>"; }
-			print "<div id=\"ampi_battery$pass\" class=\"ampi_battery $typemush $ampi_highlight $status $options{C}\">$name<span class=\"ampi_reading ampi_online\">".$devicestate."V</span></div>\n";
+			print "<div id=\"ampi_battery$pass\" class=\"ampi_battery $typemush $ampi_highlight $status $options{C}\">$name<span class=\"ampi_reading $status\">".$devicestate."V</span></div>\n";
 						
 		} elsif ($options{r}) {
 			print "$namemush|$devicestate\n";
@@ -293,12 +293,14 @@ sub output_b {
 		}
 
 	} else {
-			
+		
+		$status = 'ampi_offline';
+		
 		if ($options{w}) {
 			
 			if ($options{A}) { $name = "<a href=\"$options{A}\">$name</a>"; }
 			if ($options{P}) { $name = "<$options{P}>$name</$options{P}>"; }
-			print "<div id=\"ampi_battery$pass\" class=\"ampi_battery $typemush $ampi_highlight $status $options{C}\">$name<span class=\"ampi_reading ampi_offline\">Unavailable</span></div>\n";
+			print "<div id=\"ampi_battery$pass\" class=\"ampi_battery $typemush $ampi_highlight $status $options{C}\">$name<span class=\"ampi_reading $status\">Unavailable</span></div>\n";
 			
 		} elsif ($options{r}) {
 			print "$namemush|unavailable\n";
