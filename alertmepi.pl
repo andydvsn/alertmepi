@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# AlertMe Perl Interface v2.06 (17/09/11)
+# AlertMe Perl Interface v2.07 (15/05/12)
 #
 # http://code.google.com/p/alertmepi
 
@@ -258,11 +258,11 @@ if ($options{b}) {
 		my $typemush = mush($type);
 					
 		my $ampi_highlight = $pass % 2 ? 'light' : 'dark';
-	 	my $class = 'online';
+	 	my $status = 'online';
 	
 		my $devicestate = getBatteryLevel("$id");
 	
-		output_b($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$class,$devicestate);
+		output_b($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$status,$devicestate);
 		
 		$pass++;
 			
@@ -272,19 +272,19 @@ if ($options{b}) {
 
 sub output_b {
 	
-	my ($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$class,$devicestate) = @_;
+	my ($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$status,$devicestate) = @_;
 	$pass = ($pass += $randomness);
 	
 	if(looks_like_number($devicestate)) {
 
-		if ($devicestate < 2.6) { $class = 'onlineWarning'; }
-		if ($devicestate < 2.8 && $typemush eq 'powerclamp') { $class = 'onlineWarning'; }
+		if ($devicestate < 2.6) { $status = 'warning'; }
+		if ($devicestate < 2.8 && $typemush eq 'powerclamp') { $status = 'warning'; }
 
 		if ($options{w}) {
 			
 			if ($options{A}) { $name = "<a href=\"$options{A}\">$name</a>"; }
 			if ($options{P}) { $name = "<$options{P}>$name</$options{P}>"; }
-			print "<div id=\"ampi_battery$pass\" class=\"ampi_battery $typemush $ampi_highlight $options{C}\">$name<span class=\"ampi_reading ampi_online\">".$devicestate."V</span></div>\n";
+			print "<div id=\"ampi_battery$pass\" class=\"ampi_battery $typemush $ampi_highlight $status $options{C}\">$name<span class=\"ampi_reading ampi_online\">".$devicestate."V</span></div>\n";
 						
 		} elsif ($options{r}) {
 			print "$namemush|$devicestate\n";
@@ -298,7 +298,7 @@ sub output_b {
 			
 			if ($options{A}) { $name = "<a href=\"$options{A}\">$name</a>"; }
 			if ($options{P}) { $name = "<$options{P}>$name</$options{P}>"; }
-			print "<div id=\"ampi_battery$pass\" class=\"ampi_battery $typemush $ampi_highlight $options{C}\">$name<span class=\"ampi_reading ampi_offline\">Unavailable</span></div>\n";
+			print "<div id=\"ampi_battery$pass\" class=\"ampi_battery $typemush $ampi_highlight $status $options{C}\">$name<span class=\"ampi_reading ampi_offline\">Unavailable</span></div>\n";
 			
 		} elsif ($options{r}) {
 			print "$namemush|unavailable\n";
@@ -385,7 +385,7 @@ if ($options{e}) {
 		if( $typemush =~ 'power' ) {
 		
 			my $ampi_highlight = $pass % 2 ? 'light' : 'dark';
-		 	my $class = 'online';
+		 	my $status = 'online';
 			
 			my $devicestate;
 			if ($typemush eq 'powercontroller') {
@@ -394,7 +394,7 @@ if ($options{e}) {
 				$devicestate = $typemush;
 			}
 		
-			output_eE($pass,$name,$namemush,$namesafe,$id,$type,$typemush,$ampi_highlight,$class,$devicestate);
+			output_eE($pass,$name,$namemush,$namesafe,$id,$type,$typemush,$ampi_highlight,$status,$devicestate);
 
 			$pass++;
 			
@@ -424,7 +424,7 @@ if ($options{E}) {
 		if( $typemush eq 'powercontroller') {
 		
 			my $ampi_highlight = $pass % 2 ? 'light' : 'dark';
-		 	my $class = 'online';
+		 	my $status = 'online';
 		
 			if ($options{O}) {
 				setRelayState("$id",$options{O});
@@ -437,7 +437,7 @@ if ($options{E}) {
 			sleep 2; # Need to pause a bit, otherwise we might ask for state info before it has been returned.
 			my $devicestate = getRelayState("$id");
 		
-			output_eE($pass,$name,$namemush,$namesafe,$id,$type,$typemush,$ampi_highlight,$class,$devicestate);
+			output_eE($pass,$name,$namemush,$namesafe,$id,$type,$typemush,$ampi_highlight,$status,$devicestate);
 
 			$pass++;
 			
@@ -449,7 +449,7 @@ if ($options{E}) {
 
 sub output_eE {
 
-	my ($pass,$name,$namemush,$namesafe,$id,$type,$typemush,$ampi_highlight,$class,$devicestate) = @_;
+	my ($pass,$name,$namemush,$namesafe,$id,$type,$typemush,$ampi_highlight,$status,$devicestate) = @_;
 	$pass = ($pass += $randomness);
 
 	if($devicestate eq 'True') {
@@ -573,11 +573,11 @@ if ($options{k}) {
 		if( $typemush eq 'keyfob') {
 		
 			my $ampi_highlight = $pass % 2 ? 'light' : 'dark';
-		 	my $class = 'online';
+		 	my $status = 'online';
 		
 			my $devicestate = getPresence("$id");
 		
-			output_k($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$class,$devicestate);
+			output_k($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$status,$devicestate);
 
 			$pass++;
 			
@@ -589,7 +589,7 @@ if ($options{k}) {
 
 sub output_k {
 	
-	my ($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$class,$devicestate) = @_;
+	my ($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$status,$devicestate) = @_;
 	$pass = ($pass += $randomness);
 	
 	if ($devicestate eq 'True') {
@@ -741,7 +741,7 @@ if ($options{p}) {
 		if( $typemush eq 'keyfob') {
 		
 			my $ampi_highlight = $pass % 2 ? 'light' : 'dark';
-		 	my $class = 'online';
+		 	my $status = 'online';
 						
 			foreach my $l ( @eventlog ) {
 				my ( $timestamp, $zidlabel, $loggedid, $typelabel, $loggedtype, $message ) = split '\|', $l;
@@ -757,7 +757,7 @@ if ($options{p}) {
 						$presence = "away"
 					}
 										
-					output_p($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$class,$presence,$elapsed,$elapsedsecs);
+					output_p($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$status,$presence,$elapsed,$elapsedsecs);
 					
 					last;
 				}
@@ -774,7 +774,7 @@ if ($options{p}) {
 
 sub output_p {
 	
-	my ($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$class,$presence,$elapsed,$elapsedsecs) = @_;
+	my ($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$status,$presence,$elapsed,$elapsedsecs) = @_;
 	$pass = ($pass += $randomness);
 	
 	if ($options{w}) {
@@ -951,7 +951,7 @@ if ($options{t}) {
 		my $typemush = mush($type);
 
 		my $ampi_highlight = $pass % 2 ? 'light' : 'dark';
-	 	my $class = 'online';
+	 	my $status = 'online';
 	
 		my $devicestate = getTemperature("$id");
 		
@@ -965,7 +965,7 @@ if ($options{t}) {
 			}
 		}
 		
-		output_t($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$class,$devicestate);
+		output_t($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$status,$devicestate);
 		
 		$pass++;
 						
@@ -975,7 +975,7 @@ if ($options{t}) {
 
 sub output_t {
 	
-	my ($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$class,$devicestate) = @_;
+	my ($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$status,$devicestate) = @_;
 	$pass = ($pass += $randomness);
 	
 	if(looks_like_number($devicestate)) {
