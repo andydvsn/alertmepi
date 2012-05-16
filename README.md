@@ -77,7 +77,7 @@ You can run:
 
 	./alertmepi.pl -h
 
-for more information, or take a look in the wiki.
+for more information.
 
 
 Limitations
@@ -85,6 +85,7 @@ Limitations
 
 * Currently only the first hub on an account can be used, and the script goes some way towards grabbing the first listed hub and operating only with that. However, this issue is slightly moot in the fact that AlertMe themselves only appear to practice a one-hub-per-account strategy. However, the potential exists for more than one hub to be returned, so the script tries to deal with this (in the most simplistic way!).
 * The script uses some hard-coded paths in the setup which expect an /etc/ directory. This should be rewritten for per-user configurations and to be system agnostic.
+* I've written anything for Windows, so I don't know how to do anything in that environment. If you do know how, feel free to contribute!
 
 
 Acknowledgements
