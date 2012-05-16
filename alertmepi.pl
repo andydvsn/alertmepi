@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# AlertMe Perl Interface v2.07 (15/05/12)
+# AlertMe Perl Interface v2.08 (16/05/12)
 #
 # http://code.google.com/p/alertmepi
 
@@ -965,6 +965,11 @@ if ($options{t}) {
 			} elsif ($state eq 'False') {
 				$devicestate = $devicestate - 10;
 			}
+		}
+		
+		# This tries to do the same thing for a lamp. 
+		if ($typemush eq 'lamp') {
+			$devicestate = $devicestate - 19;
 		}
 		
 		output_t($pass,$name,$namemush,$id,$type,$typemush,$ampi_highlight,$status,$devicestate);
