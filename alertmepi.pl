@@ -277,7 +277,7 @@ sub output_b {
 	
 	if(looks_like_number($devicestate)) {
 
-		if ($devicestate < 2.6) { $status = 'ampi_warning'; }
+		if ($devicestate < 2.7) { $status = 'ampi_warning'; }
 		if ($devicestate < 2.8 && $typemush eq 'powerclamp') { $status = 'ampi_warning'; }
 
 		if ($options{w}) {
